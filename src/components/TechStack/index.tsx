@@ -1,4 +1,5 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import { UIStack } from "../../components-ui/Stack";
 import { techStacks } from "../../utils/techStacks";
 
 interface Props {
@@ -6,11 +7,17 @@ interface Props {
   setCheckedState: Dispatch<SetStateAction<any[]>>;
 }
 export const TechStack: FC<Props> = ({ checkedState, setCheckedState }) => {
-  const handleOnChange = (position: any) => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item
-    );
-    setCheckedState(updatedCheckedState);
+  const [isSelected, setIsSelected] = useState(false);
+
+  // const handleOnChange = (position: any) => {
+  //   const updatedCheckedState = checkedState.map((item, index) =>
+  //     index === position ? !item : item
+  //   );
+  //   setCheckedState(updatedCheckedState);
+  // };
+
+  const onToggleCheck = () => {
+    setIsSelected(!isSelected);
   };
 
   return (
@@ -32,7 +39,7 @@ export const TechStack: FC<Props> = ({ checkedState, setCheckedState }) => {
               padding: 10,
             }}
           >
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            {/* <div style={{ display: "flex", justifyContent: "center" }}>
               <img style={{ width: 24 }} alt={el.name} src={el.url} />
             </div>
             <div>
@@ -44,7 +51,13 @@ export const TechStack: FC<Props> = ({ checkedState, setCheckedState }) => {
                 onChange={() => handleOnChange(el.id)}
               />
               <span>{el.name}</span>
-            </div>
+            </div> */}
+            <UIStack
+              icon={el.url}
+              label={el.name}
+              onToggleCheck={onToggleCheck}
+              isSelected={isSelected}
+            />
           </div>
         ))}
       </div>

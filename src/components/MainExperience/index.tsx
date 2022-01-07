@@ -6,17 +6,15 @@ import React, {
   useState,
 } from "react";
 import { TExperience } from "../../App";
+import { UIInput } from "../../components-ui/Input";
+import { UITextArea } from "../../components-ui/TextArea";
 
 interface Props {
-  linkedIn: string;
-  setLinkedIn: Dispatch<SetStateAction<string>>;
   setAllExperiences: Dispatch<SetStateAction<TExperience[]>>;
   allExperiences: TExperience[];
 }
 
 export const MainExperience: FC<Props> = ({
-  linkedIn,
-  setLinkedIn,
   setAllExperiences,
   allExperiences,
 }) => {
@@ -24,9 +22,6 @@ export const MainExperience: FC<Props> = ({
   const [title, setTitle] = useState("");
   const [client, setClient] = useState("");
   const [descriptions, setDescriptions] = useState("");
-
-  const onChangeLinkedIn = (e: ChangeEvent<HTMLInputElement>) =>
-    setLinkedIn(e.target.value);
 
   const onChangeDate = (e: ChangeEvent<HTMLInputElement>) =>
     setDate(e.target.value);
@@ -37,50 +32,45 @@ export const MainExperience: FC<Props> = ({
   const onChangeClient = (e: ChangeEvent<HTMLInputElement>) =>
     setClient(e.target.value);
 
-  const onChangeDescriptions = (e: ChangeEvent<HTMLInputElement>) =>
+  const onChangeDescriptions = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setDescriptions(e.target.value);
 
-  return (
-    <div>
-      <h2># main.experiences</h2>
-      <div>
-        <label style={{ display: "block" }}>LinkedIn</label>
-        <input value={linkedIn} onChange={onChangeLinkedIn} />
-      </div>
-      <div>
-        <label style={{ display: "block" }}>date</label>
-        <input value={date} onChange={onChangeDate} />
-      </div>
-      <div>
-        <label style={{ display: "block" }}>title</label>
-        <input value={title} onChange={onChangeTitle} />
-      </div>
-      <div>
-        <label style={{ display: "block" }}>client</label>
-        <input value={client} onChange={onChangeClient} />
-      </div>
-      <div>
-        <label style={{ display: "block" }}>descriptions</label>
-        <input value={descriptions} onChange={onChangeDescriptions} />
-      </div>
+  const onAddExperience = () => {
+    setAllExperiences([
+      ...allExperiences,
+      { date, title, client, descriptions },
+    ]);
+    setDate("");
+    setTitle("");
+    setClient("");
+    setDescriptions("");
+  };
 
-      <button
-        onClick={() => {
-          setAllExperiences([
-            ...allExperiences,
-            { date, title, client, descriptions },
-          ]);
-        }}
-      >
-        Add experience
-      </button>
+  return (
+    <div style={{ width: "100%" }}>
+      <h2># main.experiences</h2>
+      <UIInput
+        value={date}
+        label="Date"
+        onChange={onChangeDate}
+        placeholder="2020 - 2021"
+      />
+      <UIInput value={title} label="Title" onChange={onChangeTitle} />
+      <UIInput value={client} label="Client" onChange={onChangeClient} />
+      <UITextArea
+        value={descriptions}
+        label="Description"
+        onChange={onChangeDescriptions}
+      />
+
+      <button onClick={onAddExperience}>Add experience</button>
 
       {allExperiences.map((el, index) => (
         <div style={{ marginBottom: 15, marginTop: 15 }} key={index}>
           <div>{el.date}</div>
           <div>{el.title}</div>
           <div>{el.client}</div>
-          <div>{el.descriptions}</div>
+          <div style={{ overflowWrap: "break-word" }}>{el.descriptions}</div>
         </div>
       ))}
     </div>

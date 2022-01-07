@@ -1,24 +1,22 @@
 import React, { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
+import { UITextArea } from "../../components-ui/TextArea";
 
 interface Props {
   description: string;
   setDescription: Dispatch<SetStateAction<string>>;
 }
 export const AboutMe: FC<Props> = ({ description, setDescription }) => {
-  const onChangeDescription = (e: ChangeEvent<HTMLInputElement>) =>
+  const onChangeDescription = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setDescription(e.target.value);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <h2># about.me</h2>
-      <div>
-        <label style={{ display: "block" }}>Description</label>
-        <input
-          type="text-area"
-          value={description}
-          onChange={onChangeDescription}
-        />
-      </div>
+      <UITextArea
+        value={description}
+        label="Description"
+        onChange={onChangeDescription}
+      />
     </div>
   );
 };
