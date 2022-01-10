@@ -4,7 +4,6 @@ import { MainExperience } from "./components/MainExperience";
 import { PersonalInfo } from "./components/PersonalInfo";
 import { PrintComponent } from "./components/PrintComponent";
 import { TechStack } from "./components/TechStack";
-import { techStacks } from "./utils/techStacks";
 
 export interface TExperience {
   date: string;
@@ -20,13 +19,10 @@ export const App = () => {
   const [git, setGit] = useState("");
   const [linkedIn, setLinkedIn] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedStack, setSelectedStack] = useState<{}[]>([]);
   const [allExperiences, setAllExperiences] = useState<TExperience[]>([]);
 
   const [isPdfReady, setIsPdfReady] = useState(false);
-
-  const [checkedState, setCheckedState] = useState(
-    new Array(techStacks.length).fill(false)
-  );
 
   const onGeneratePDF = () => {
     setAllValues([
@@ -37,15 +33,14 @@ export const App = () => {
       linkedIn,
       description,
       allExperiences,
-      checkedState,
+      selectedStack,
     ]);
-    setIsPdfReady(true);
+    // setIsPdfReady(true);
+    console.log(allValues);
+    console.log(JSON.stringify(allValues));
   };
 
-  const formattedArray = checkedState.filter((value) => value === true);
-  console.log(checkedState);
-
-  console.log(formattedArray);
+  // const formattedArray = checkedState.filter((value) => value === true);
 
   return (
     <>
@@ -54,7 +49,7 @@ export const App = () => {
           username={username}
           age={age}
           git={git}
-          formattedArray={formattedArray}
+          // formattedArray={formattedArray}
           linkedIn={linkedIn}
           allExperiences={allExperiences}
           description={description}
@@ -82,14 +77,14 @@ export const App = () => {
           />
           <AboutMe description={description} setDescription={setDescription} />
           <TechStack
-            checkedState={checkedState}
-            setCheckedState={setCheckedState}
+            selectedStack={selectedStack}
+            setSelectedStack={setSelectedStack}
           />
           <MainExperience
             setAllExperiences={setAllExperiences}
             allExperiences={allExperiences}
           />
-          <button onClick={onGeneratePDF}>Show preview</button>
+          <button onClick={onGeneratePDF}>Generate Pdf</button>
         </div>
       )}
     </>

@@ -12,7 +12,7 @@ interface Props {
   description: string;
   age: string;
   git: string;
-  formattedArray: boolean[];
+  // formattedArray: boolean[];
   linkedIn: string;
   allExperiences: TExperience[];
 }
@@ -22,7 +22,7 @@ export const PrintComponent: FC<Props> = ({
   description,
   age,
   git,
-  formattedArray,
+  // formattedArray,
   linkedIn,
   allExperiences,
 }) => {
@@ -47,9 +47,9 @@ export const PrintComponent: FC<Props> = ({
         </UISection>
 
         <UITitle title="tech.stack" />
-        <UISection>
+        {/* <UISection>
           <div>{formattedArray}</div>
-        </UISection>
+        </UISection> */}
         <UISection>
           <p>{linkedIn}</p>
         </UISection>

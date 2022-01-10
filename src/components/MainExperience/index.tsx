@@ -23,8 +23,9 @@ export const MainExperience: FC<Props> = ({
   const [client, setClient] = useState("");
   const [descriptions, setDescriptions] = useState("");
 
-  const onChangeDate = (e: ChangeEvent<HTMLInputElement>) =>
+  const onChangeDate = ( e: ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
+  };
 
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) =>
     setTitle(e.target.value);
@@ -40,16 +41,45 @@ export const MainExperience: FC<Props> = ({
       ...allExperiences,
       { date, title, client, descriptions },
     ]);
-    setDate("");
-    setTitle("");
-    setClient("");
-    setDescriptions("");
+    // setDate("");
+    // setTitle("");
+    // setClient("");
+    // setDescriptions("");
   };
+
+  const onRemoveExperience = (id: any) => {
+    const formattedList = allExperiences.filter((item) => item !== id);
+    setAllExperiences(formattedList);
+  };
+
+  const renderExperiences = allExperiences.map((el, index) => (
+      <div style={{ marginBottom: 15, marginTop: 15 }} key={index}>
+        <UIInput
+          value={date}
+          label="Date"
+          onChange={onChangeDate}
+          placeholder="2020 - 2021"
+        />
+        <UIInput value={title} label="Title" onChange={onChangeTitle} />
+        <UIInput value={client} label="Client" onChange={onChangeClient} />
+        <UITextArea
+          value={descriptions}
+          label="Description"
+          onChange={onChangeDescriptions}
+        />
+        <button onClick={() => onRemoveExperience(el)}>
+          Remove experience
+        </button>
+      </div>
+    ));
+  
 
   return (
     <div style={{ width: "100%" }}>
       <h2># main.experiences</h2>
-      <UIInput
+      {renderExperiences}
+
+      {/* <UIInput
         value={date}
         label="Date"
         onChange={onChangeDate}
@@ -61,18 +91,9 @@ export const MainExperience: FC<Props> = ({
         value={descriptions}
         label="Description"
         onChange={onChangeDescriptions}
-      />
+      /> */}
 
       <button onClick={onAddExperience}>Add experience</button>
-
-      {allExperiences.map((el, index) => (
-        <div style={{ marginBottom: 15, marginTop: 15 }} key={index}>
-          <div>{el.date}</div>
-          <div>{el.title}</div>
-          <div>{el.client}</div>
-          <div style={{ overflowWrap: "break-word" }}>{el.descriptions}</div>
-        </div>
-      ))}
     </div>
   );
 };
