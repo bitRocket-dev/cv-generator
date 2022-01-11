@@ -4,42 +4,46 @@ import { MainExperience } from "./components/MainExperience";
 import { PersonalInfo } from "./components/PersonalInfo";
 import { PrintComponent } from "./components/PrintComponent";
 import { TechStack } from "./components/TechStack";
+import { techStacks } from "./utils/techStacks";
 
 export interface TExperience {
-  id:string;
+  id: string;
   date: string;
   title: string;
   client: string;
   descriptions: string;
 }
 
+export interface TStack {
+  id: number;
+  name: string;
+  url: string;
+  isSelected?: boolean;
+}
+
 export const App = () => {
-  const [allValues, setAllValues] = useState([{}]);
   const [username, setUsername] = useState("");
   const [age, setAge] = useState("");
   const [git, setGit] = useState("");
   const [linkedIn, setLinkedIn] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedStack, setSelectedStack] = useState<{}[]>([]);
+  const [selectedStack, setSelectedStack] = useState<TStack[]>(techStacks);
   const [allExperiences, setAllExperiences] = useState<TExperience[]>([]);
 
   const [isPdfReady, setIsPdfReady] = useState(false);
 
   const onGeneratePDF = () => {
-    setAllValues([
-      ...allValues,
-      username,
+    const formattedStackList = selectedStack.filter(item=>item.isSelected===true)
+    // setIsPdfReady(true);
+    console.log(JSON.stringify({username,
       age,
       git,
       linkedIn,
       description,
       allExperiences,
-      selectedStack,
-    ]);
-    // setIsPdfReady(true);
-    console.log(allValues);
-    console.log(JSON.stringify(allValues));
-  };
+      formattedStackList}));
+      
+    };
 
   // const formattedArray = checkedState.filter((value) => value === true);
 

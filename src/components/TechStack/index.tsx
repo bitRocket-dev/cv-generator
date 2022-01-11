@@ -1,23 +1,26 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
+import { TStack } from "../../App";
 import { UIStack } from "../../components-ui/Stack";
-import { techStacks } from "../../utils/techStacks";
 
 interface Props {
-  selectedStack: {}[];
-  setSelectedStack: Dispatch<SetStateAction<{}[]>>;
+  selectedStack: TStack[];
+  setSelectedStack: Dispatch<SetStateAction<TStack[]>>;
 }
 export const TechStack: FC<Props> = ({ selectedStack, setSelectedStack }) => {
-  const onToggleCheck = (el: any) => {
-    const formattedList = selectedStack.filter((item) => item !== el);
 
-    if (selectedStack.find((item) => item === el)) {
-      setSelectedStack(formattedList);
+  const onToggleCheck = (el: TStack) => {
+    const control = selectedStack.find((item) => item.id === el.id);
+
+    if (control?.isSelected === true) {
+      el.isSelected = false;
+      setSelectedStack([...selectedStack])
     } else {
-      setSelectedStack([...selectedStack, el]);
+      el.isSelected = true;
+      setSelectedStack([...selectedStack])
     }
   };
 
-  const renderList = techStacks.map((el) => (
+  const renderList = selectedStack.map((el) => (
     <div
       key={el.id}
       style={{
@@ -28,7 +31,7 @@ export const TechStack: FC<Props> = ({ selectedStack, setSelectedStack }) => {
         icon={el.url}
         label={el.name}
         onToggleCheck={() => onToggleCheck(el)}
-        isSelected={false}
+        isSelected={el.isSelected!}
       />
     </div>
   ));
