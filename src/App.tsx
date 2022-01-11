@@ -6,6 +6,7 @@ import { PrintComponent } from "./components/PrintComponent";
 import { TechStack } from "./components/TechStack";
 
 export interface TExperience {
+  id:string;
   date: string;
   title: string;
   client: string;

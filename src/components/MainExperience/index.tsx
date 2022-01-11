@@ -18,80 +18,89 @@ export const MainExperience: FC<Props> = ({
   setAllExperiences,
   allExperiences,
 }) => {
-  const [date, setDate] = useState("");
-  const [title, setTitle] = useState("");
-  const [client, setClient] = useState("");
-  const [descriptions, setDescriptions] = useState("");
+  const randomId = Math.random().toString();
+  const [form, setForm] = useState<TExperience>({
+    id: randomId,
+    date: "",
+    title: "",
+    client: "",
+    descriptions: "",
+  });
 
-  const onChangeDate = ( e: ChangeEvent<HTMLInputElement>) => {
-    setDate(e.target.value);
+  const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, date:e.target.value});
   };
 
-  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.target.value);
+  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, title: e.target.value });
+  };
 
-  const onChangeClient = (e: ChangeEvent<HTMLInputElement>) =>
-    setClient(e.target.value);
+  const onChangeClient = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, client: e.target.value });
+  };
 
-  const onChangeDescriptions = (e: ChangeEvent<HTMLTextAreaElement>) =>
-    setDescriptions(e.target.value);
+  const onChangeDescriptions = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setForm({...form, descriptions:e.target.value})
+  };
 
   const onAddExperience = () => {
     setAllExperiences([
       ...allExperiences,
-      { date, title, client, descriptions },
+      form
     ]);
-    // setDate("");
-    // setTitle("");
-    // setClient("");
-    // setDescriptions("");
+    setForm({
+      id: randomId,
+      date: "",
+      title: "",
+      client: "",
+      descriptions: "",
+    })
   };
 
-  const onRemoveExperience = (id: any) => {
-    const formattedList = allExperiences.filter((item) => item !== id);
+  const onRemoveExperience = (id: string) => {
+    const formattedList = allExperiences.filter((item) => item.id !== id);
     setAllExperiences(formattedList);
   };
 
   const renderExperiences = allExperiences.map((el, index) => (
-      <div style={{ marginBottom: 15, marginTop: 15 }} key={index}>
-        <UIInput
-          value={date}
-          label="Date"
-          onChange={onChangeDate}
-          placeholder="2020 - 2021"
-        />
-        <UIInput value={title} label="Title" onChange={onChangeTitle} />
-        <UIInput value={client} label="Client" onChange={onChangeClient} />
-        <UITextArea
-          value={descriptions}
-          label="Description"
-          onChange={onChangeDescriptions}
-        />
-        <button onClick={() => onRemoveExperience(el)}>
-          Remove experience
-        </button>
-      </div>
-    ));
-  
+    <div style={{ marginBottom: 15, marginTop: 15 }} key={index}>
+      <UIInput
+        value={el.date}
+        label="Date"
+        onChange={onChangeDate}
+        placeholder="2020 - 2021"
+      />
+      <UIInput value={el.title} label="Title" onChange={onChangeTitle} />
+      <UIInput value={el.client} label="Client" onChange={onChangeClient} />
+
+      <UITextArea
+        value={el.descriptions}
+        label="Description"
+        onChange={onChangeDescriptions}
+      /> 
+      <button onClick={() => onRemoveExperience(el.id)}>Remove experience</button>
+    </div>
+  ));
 
   return (
     <div style={{ width: "100%" }}>
       <h2># main.experiences</h2>
       {renderExperiences}
 
-      {/* <UIInput
-        value={date}
+       <UIInput
+        value={form.date}
         label="Date"
         onChange={onChangeDate}
         placeholder="2020 - 2021"
-      />
-      <UIInput value={title} label="Title" onChange={onChangeTitle} />
-      <UIInput value={client} label="Client" onChange={onChangeClient} />
+      /> 
+      <UIInput value={form.title} label="Title" onChange={onChangeTitle} />
+      <UIInput value={form.client} label="Client" onChange={onChangeClient} />
+      
       <UITextArea
-        value={descriptions}
+        value={form.descriptions}
         label="Description"
         onChange={onChangeDescriptions}
-      /> */}
+      />
 
       <button onClick={onAddExperience}>Add experience</button>
     </div>
