@@ -1,7 +1,7 @@
 import React, { FC, useRef } from "react";
 //@ts-ignore
 import Pdf from "react-to-pdf";
-import { TExperience } from "../../App";
+import { TExperience, TStack } from "../../App";
 import { UIExperience } from "../../components-ui/Experience";
 import { UIHeader } from "../../components-ui/Header";
 import { UISection } from "../../components-ui/Section";
@@ -12,7 +12,7 @@ interface Props {
   description: string;
   age: string;
   git: string;
-  // formattedArray: boolean[];
+  selectedStack: TStack[];
   linkedIn: string;
   allExperiences: TExperience[];
 }
@@ -22,7 +22,7 @@ export const PrintComponent: FC<Props> = ({
   description,
   age,
   git,
-  // formattedArray,
+  selectedStack,
   linkedIn,
   allExperiences,
 }) => {
@@ -47,9 +47,9 @@ export const PrintComponent: FC<Props> = ({
         </UISection>
 
         <UITitle title="tech.stack" />
-        {/* <UISection>
-          <div>{formattedArray}</div>
-        </UISection> */}
+        <UISection>
+          <div>{selectedStack}</div>
+        </UISection>
         <UISection>
           <p>{linkedIn}</p>
         </UISection>

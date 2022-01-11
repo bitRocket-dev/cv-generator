@@ -37,7 +37,7 @@ export const PersonalInfo: FC<Props> = ({
   return (
     <div>
       <UIInput value={username} onChange={onChangeName} label="Username" />
-      <UIInput value={age} onChange={onChangeAge} label="Age" />
+      <UIInput type={"number"} value={age} onChange={onChangeAge} label="Age" />
       <UIInput value={git} onChange={onChangeGit} label="Github" />
       <UIInput value={linkedIn} onChange={onChangeLinkedIn} label="LinkedIn" />
     </div>

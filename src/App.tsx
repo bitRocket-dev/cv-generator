@@ -33,19 +33,22 @@ export const App = () => {
   const [isPdfReady, setIsPdfReady] = useState(false);
 
   const onGeneratePDF = () => {
-    const formattedStackList = selectedStack.filter(item=>item.isSelected===true)
+    const formattedStackList = selectedStack.filter(
+      (item) => item.isSelected === true
+    );
     // setIsPdfReady(true);
-    console.log(JSON.stringify({username,
-      age,
-      git,
-      linkedIn,
-      description,
-      allExperiences,
-      formattedStackList}));
-      
-    };
-
-  // const formattedArray = checkedState.filter((value) => value === true);
+    console.log(
+      JSON.stringify({
+        username,
+        age,
+        git,
+        linkedIn,
+        description,
+        allExperiences,
+        formattedStackList,
+      })
+    );
+  };
 
   return (
     <>
@@ -54,7 +57,7 @@ export const App = () => {
           username={username}
           age={age}
           git={git}
-          // formattedArray={formattedArray}
+          selectedStack={selectedStack}
           linkedIn={linkedIn}
           allExperiences={allExperiences}
           description={description}
