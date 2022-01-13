@@ -35,7 +35,9 @@ export const UIStack: FC<Props> = ({
       >
         <img style={{ width: 24 }} alt={label} src={icon} />
       </div>
-      <div style={{ fontSize: 12, textAlign: "center" }}>{label}</div>
+      <div style={{ maxWidth: 60, fontSize: 12, textAlign: "center" }}>
+        {label}
+      </div>
     </div>
   );
 };
