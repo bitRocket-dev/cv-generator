@@ -6,6 +6,7 @@ interface Props {
   placeholder?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   type?: string;
+  onClick?: () => void;
 }
 export const UIInput: FC<Props> = ({
   value,
@@ -13,6 +14,7 @@ export const UIInput: FC<Props> = ({
   label,
   placeholder,
   type = "text",
+  onClick,
 }) => {
   return (
     <div>
@@ -22,6 +24,7 @@ export const UIInput: FC<Props> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        onClick={onClick}
       />
     </div>
   );

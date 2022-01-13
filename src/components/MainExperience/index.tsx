@@ -6,13 +6,11 @@ import React, {
   useState,
 } from "react";
 import { TExperience } from "../../App";
-import { UIInput } from "../../components-ui/Input";
-import { UITextArea } from "../../components-ui/TextArea";
 import { Form } from "./partials/Form";
 
 interface Props {
-  setAllExperiences: Dispatch<SetStateAction<TExperience[]>>;
-  allExperiences: TExperience[];
+  setAllExperiences: Dispatch<SetStateAction<TExperience>>;
+  allExperiences: TExperience;
 }
 
 export const MainExperience: FC<Props> = ({
@@ -21,7 +19,9 @@ export const MainExperience: FC<Props> = ({
 }) => {
   const randomId = Math.random().toString();
 
-  const [form, setForm] = useState<TExperience>({
+  const formList = Object.keys(allExperiences);
+
+  const [form, setForm] = useState({
     id: randomId,
     date: "",
     title: "",
@@ -29,24 +29,15 @@ export const MainExperience: FC<Props> = ({
     descriptions: "",
   });
 
-  const onChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, date: e.target.value });
+  const onChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    key: "date" | "client" | "title" | "descriptions"
+  ) => {
+    setForm({ ...form, [key]: e.target.value });
   };
 
-  const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, title: e.target.value });
-  };
-
-  const onChangeClient = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, client: e.target.value });
-  };
-
-  const onChangeDescriptions = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setForm({ ...form, descriptions: e.target.value });
-  };
-
-  const onAddExperience = () => {
-    setAllExperiences([...allExperiences, form]);
+  const onAdd = () => {
+    setAllExperiences({ ...allExperiences, [randomId]: form });
     setForm({
       id: randomId,
       date: "",
@@ -56,37 +47,48 @@ export const MainExperience: FC<Props> = ({
     });
   };
 
-  const isEmpty =
-    !form.date || !form.title || !form.client || !form.descriptions;
+  const onRemove = (id: string) => {
+    delete allExperiences[id];
+    setAllExperiences({ ...allExperiences });
+  };
+
+  const onUpdate = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id: string,
+    inputKey: "date" | "client" | "title" | "descriptions"
+  ) => {
+    allExperiences[id][inputKey] = e.target.value;
+    setAllExperiences({ ...allExperiences });
+  };
+
+  const renderForm = (key: string) => {
+    return (
+      <div key={key}>
+        <Form
+          date={allExperiences[key].date}
+          client={allExperiences[key].client}
+          title={allExperiences[key].title}
+          description={allExperiences[key].descriptions}
+          onChange={(e, keyForm) => onUpdate(e, key, keyForm)}
+        />
+        <button onClick={() => onRemove(key)}>Delete</button>
+      </div>
+    );
+  };
 
   return (
     <div style={{ width: "100%" }}>
       <h2># main.experiences</h2>
+      {formList.map(renderForm)}
       <Form
-        setAllExperiences={setAllExperiences}
-        allExperiences={allExperiences}
-        onChangeDate={onChangeDate}
-        onChangeTitle={onChangeTitle}
-        onChangeClient={onChangeClient}
-        onChangeDescriptions={onChangeDescriptions}
+        date={form.date}
+        onChange={onChange}
+        client={form.client}
+        title={form.title}
+        description={form.descriptions}
       />
 
-      <UIInput
-        value={form.date}
-        label="Date"
-        onChange={onChangeDate}
-        placeholder="2020 - 2021"
-      />
-      <UIInput value={form.title} label="Title" onChange={onChangeTitle} />
-      <UIInput value={form.client} label="Client" onChange={onChangeClient} />
-      <UITextArea
-        value={form.descriptions}
-        label="Description"
-        onChange={onChangeDescriptions}
-      />
-      <button disabled={isEmpty} onClick={onAddExperience}>
-        Add experience
-      </button>
+      <button onClick={onAdd}>Add experience</button>
     </div>
   );
 };

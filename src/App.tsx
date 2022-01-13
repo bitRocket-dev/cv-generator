@@ -7,11 +7,13 @@ import { TechStack } from "./components/TechStack";
 import { techStacks } from "./utils/techStacks";
 
 export interface TExperience {
-  id: string;
-  date: string;
-  title: string;
-  client: string;
-  descriptions: string;
+  [key: string]: {
+    id: string;
+    date: string;
+    title: string;
+    client: string;
+    descriptions: string;
+  };
 }
 
 export interface TStack {
@@ -28,7 +30,8 @@ export const App = () => {
   const [linkedIn, setLinkedIn] = useState("");
   const [description, setDescription] = useState("");
   const [selectedStack, setSelectedStack] = useState<TStack[]>(techStacks);
-  const [allExperiences, setAllExperiences] = useState<TExperience[]>([]);
+
+  const [allExperiences, setAllExperiences] = useState({  });
 
   const [isPdfReady, setIsPdfReady] = useState(false);
 

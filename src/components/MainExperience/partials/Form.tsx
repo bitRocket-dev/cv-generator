@@ -1,49 +1,48 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction } from "react";
-import { TExperience } from "../../../App";
+import React, { ChangeEvent, FC } from "react";
 import { UIInput } from "../../../components-ui/Input";
 import { UITextArea } from "../../../components-ui/TextArea";
 
 interface Props {
-  setAllExperiences: Dispatch<SetStateAction<TExperience[]>>;
-  allExperiences: TExperience[];
-  onChangeDate: (e: ChangeEvent<HTMLInputElement>) => void;
-  onChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void;
-  onChangeClient: (e: ChangeEvent<HTMLInputElement>) => void;
-  onChangeDescriptions: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  date: string;
+  client: string;
+  title: string;
+  description: string;
+  onChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    key: "date" | "client" | "title" | "descriptions"
+  ) => void;
 }
 
 export const Form: FC<Props> = ({
-  setAllExperiences,
-  allExperiences,
-  onChangeDate,
-  onChangeTitle,
-  onChangeClient,
-  onChangeDescriptions,
+  date,
+  client,
+  title,
+  description,
+  onChange,
 }) => {
-  const onRemoveExperience = (id: string) => {
-    const formattedList = allExperiences.filter((item) => item.id !== id);
-    setAllExperiences(formattedList);
-  };
-  const renderExperiences = allExperiences.map((el, index) => (
-    <div style={{ marginBottom: 15, marginTop: 15 }} key={index}>
+  return (
+    <>
       <UIInput
-        value={el.date}
+        value={date}
         label="Date"
-        onChange={onChangeDate}
+        onChange={(e) => onChange(e, "date")}
         placeholder="2020 - 2021"
       />
-      <UIInput value={el.title} label="Title" onChange={onChangeTitle} />
-      <UIInput value={el.client} label="Client" onChange={onChangeClient} />
-
-      <UITextArea
-        value={el.descriptions}
-        label="Description"
-        onChange={onChangeDescriptions}
+      <UIInput
+        value={title}
+        label="Title"
+        onChange={(e) => onChange(e, "title")}
       />
-      <button onClick={() => onRemoveExperience(el.id)}>
-        Remove experience
-      </button>
-    </div>
-  ));
-  return <>{renderExperiences}</>;
+      <UIInput
+        value={client}
+        label="Client"
+        onChange={(e) => onChange(e, "client")}
+      />
+      <UITextArea
+        value={description}
+        label="Description"
+        onChange={(e) => onChange(e, "descriptions")}
+      />
+    </>
+  );
 };

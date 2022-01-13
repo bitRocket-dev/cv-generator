@@ -14,7 +14,7 @@ interface Props {
   git: string;
   selectedStack: TStack[];
   linkedIn: string;
-  allExperiences: TExperience[];
+  allExperiences: TExperience;
 }
 
 export const PrintComponent: FC<Props> = ({
@@ -55,7 +55,7 @@ export const PrintComponent: FC<Props> = ({
         </UISection>
 
         <UITitle title="main.experiences" />
-        <UISection>
+        {/* <UISection>
           {allExperiences.map((el) => (
             <UIExperience
               date={el.date}
@@ -64,7 +64,7 @@ export const PrintComponent: FC<Props> = ({
               description={el.descriptions}
             />
           ))}
-        </UISection>
+        </UISection> */}
       </div>
       <Pdf targetRef={ref} filename={`CV${username}.pdf`}>
         {({ toPdf }: any) => <button onClick={toPdf}>Generate CV</button>}

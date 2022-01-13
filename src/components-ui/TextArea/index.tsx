@@ -4,8 +4,9 @@ interface Props {
   value: string;
   label: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  onClick?: () => void;
 }
-export const UITextArea: FC<Props> = ({ value, onChange, label }) => {
+export const UITextArea: FC<Props> = ({ value, onChange, label, onClick }) => {
   return (
     <div>
       <label style={{ display: "block" }}>{label}</label>
@@ -14,6 +15,7 @@ export const UITextArea: FC<Props> = ({ value, onChange, label }) => {
         style={{ width: "100%", height: 50, resize: "none" }}
         value={value}
         onChange={onChange}
+        onClick={onClick}
       />
     </div>
   );
