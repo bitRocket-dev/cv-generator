@@ -2,22 +2,20 @@ import React, { Dispatch, FC, SetStateAction } from "react";
 import { TStack } from "../../App";
 import { UIStack } from "../../components-ui/Stack";
 
-
 interface Props {
   selectedStack: TStack[];
   setSelectedStack: Dispatch<SetStateAction<TStack[]>>;
 }
 export const TechStack: FC<Props> = ({ selectedStack, setSelectedStack }) => {
-
   const onToggleCheck = (el: TStack) => {
     const control = selectedStack.find((item) => item.id === el.id);
 
     if (control?.isSelected === true) {
       el.isSelected = false;
-      setSelectedStack([...selectedStack])
+      setSelectedStack([...selectedStack]);
     } else {
       el.isSelected = true;
-      setSelectedStack([...selectedStack])
+      setSelectedStack([...selectedStack]);
     }
   };
 
@@ -43,7 +41,6 @@ export const TechStack: FC<Props> = ({ selectedStack, setSelectedStack }) => {
 
       <div
         style={{
-          width: "1000px",
           display: "flex",
           flexWrap: "wrap",
           flex: 12,
