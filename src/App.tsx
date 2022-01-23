@@ -31,7 +31,7 @@ export const App = () => {
   const [description, setDescription] = useState("");
   const [selectedStack, setSelectedStack] = useState<TStack[]>(techStacks);
 
-  const [allExperiences, setAllExperiences] = useState({  });
+  const [allExperiences, setAllExperiences] = useState({});
 
   const [isPdfReady, setIsPdfReady] = useState(false);
 
@@ -39,18 +39,21 @@ export const App = () => {
     const formattedStackList = selectedStack.filter(
       (item) => item.isSelected === true
     );
-    // setIsPdfReady(true);
-    console.log(
-      JSON.stringify({
-        username,
-        age,
-        git,
-        linkedIn,
-        description,
-        allExperiences,
-        formattedStackList,
-      })
-    );
+    setIsPdfReady(true);
+    console
+      .log
+      // JSON.stringify({
+      //   username,
+      //   age,
+      //   git,
+      //   linkedIn,
+      //   description,
+      //   allExperiences,
+      //   formattedStackList,
+      // })
+      // allExperiences
+      //
+      ();
   };
 
   return (
@@ -64,6 +67,7 @@ export const App = () => {
           linkedIn={linkedIn}
           allExperiences={allExperiences}
           description={description}
+          setIsPdfReady={setIsPdfReady}
         />
       ) : (
         <div

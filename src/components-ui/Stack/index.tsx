@@ -4,7 +4,7 @@ interface Props {
   label: string;
   icon: string;
   isSelected: boolean;
-  onToggleCheck: () => void;
+  onToggleCheck?: () => void;
 }
 
 export const UIStack: FC<Props> = ({

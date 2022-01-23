@@ -1,10 +1,11 @@
-import React, { FC, useRef } from "react";
+import React, { Dispatch, FC, SetStateAction, useRef } from "react";
 //@ts-ignore
 import Pdf from "react-to-pdf";
 import { TExperience, TStack } from "../../App";
 import { UIExperience } from "../../components-ui/Experience";
 import { UIHeader } from "../../components-ui/Header";
 import { UISection } from "../../components-ui/Section";
+import { UIStack } from "../../components-ui/Stack";
 import { UITitle } from "../../components-ui/Title";
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
   selectedStack: TStack[];
   linkedIn: string;
   allExperiences: TExperience;
+  setIsPdfReady: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PrintComponent: FC<Props> = ({
@@ -25,9 +27,27 @@ export const PrintComponent: FC<Props> = ({
   selectedStack,
   linkedIn,
   allExperiences,
+  setIsPdfReady,
 }) => {
   const ref = useRef(null);
 
+  const formattedStackList = selectedStack.filter(
+    (item) => item.isSelected === true
+  );
+
+  const renderExp = (key: string) => {
+    return (
+      <div key={key}>
+        <UIExperience
+          date={allExperiences[key].date}
+          client={allExperiences[key].client}
+          title={allExperiences[key].title}
+          description={allExperiences[key].descriptions}
+        />
+      </div>
+    );
+  };
+  const formList = Object.keys(allExperiences);
   return (
     <>
       <div
@@ -48,27 +68,34 @@ export const PrintComponent: FC<Props> = ({
 
         <UITitle title="tech.stack" />
         <UISection>
-          <div>{selectedStack}</div>
+          <div style={{ display: "flex" }}>
+            {formattedStackList.map((el) => (
+              <div
+                key={el.id}
+                style={{
+                  padding: 10,
+                }}
+              >
+                <UIStack
+                  icon={el.url}
+                  label={el.name}
+                  isSelected={el.isSelected!}
+                />
+              </div>
+            ))}
+          </div>
         </UISection>
         <UISection>
           <p>{linkedIn}</p>
         </UISection>
 
         <UITitle title="main.experiences" />
-        {/* <UISection>
-          {allExperiences.map((el) => (
-            <UIExperience
-              date={el.date}
-              title={el.title}
-              client={el.client}
-              description={el.descriptions}
-            />
-          ))}
-        </UISection> */}
+        <UISection>{formList.map(renderExp)}</UISection>
       </div>
       <Pdf targetRef={ref} filename={`CV${username}.pdf`}>
         {({ toPdf }: any) => <button onClick={toPdf}>Generate CV</button>}
       </Pdf>
+      <button onClick={() => setIsPdfReady(false)}>Back</button>
     </>
   );
 };
